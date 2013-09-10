@@ -3,6 +3,7 @@ from datetime import datetime, date, timedelta
 from decimal import Decimal
 import random
 import string
+import uuid
 
 try:
     from django.utils.timezone import now
@@ -52,12 +53,21 @@ class RandomDataFixture(DataFixture):
 
     def textfield_config(self, field, key):
         return self.charfield_config(field, key)
+    
+    def translationfield_config(self, field, key):
+        lang = field.name[-2:]
+        text = self.charfield_config(field, key)
+        return "%s (%s)" % (text, lang)
 
     def slugfield_config(self, field, key):
         return self.charfield_config(field, key)
 
     def commaseparatedintegerfield_config(self, field, key):
         return unicode(random.randint(1, field.max_length)) #FIXME:
+
+    def uuidfield_config(self, field, key):
+        # Not necessarily deterministic, but...
+        return uuid.uuid4()
 
     # BOOLEAN
     def booleanfield_config(self, field, key):
