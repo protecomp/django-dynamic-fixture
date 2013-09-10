@@ -54,7 +54,7 @@ def fixture(**kwargs):
 
 
 # Wrappers
-def new(model, shelve=False, n=1, persist_dependencies=True, **kwargs):
+def new(model_, shelve=False, n=1, persist_dependencies=True, **kwargs):
     """
     Return one or many valid instances of Django Models with fields filled with auto generated or customized data.
     All instances will NOT be persisted in the database, except its dependencies, in case @persist_dependencies is True.
@@ -76,14 +76,14 @@ def new(model, shelve=False, n=1, persist_dependencies=True, **kwargs):
     kwargs = look_up_alias(**kwargs)
     d = fixture(**kwargs)
     if n == 1:
-        return d.new(model, shelve=shelve, persist_dependencies=persist_dependencies, **kwargs)
+        return d.new(model_, shelve=shelve, persist_dependencies=persist_dependencies, **kwargs)
     instances = []
     for _ in range(n):
-        instances.append(d.new(model, persist_dependencies=persist_dependencies, **kwargs))
+        instances.append(d.new(model_, persist_dependencies=persist_dependencies, **kwargs))
     return instances
 
 
-def get(model, shelve=False, n=1, **kwargs):
+def get(model_, shelve=False, n=1, **kwargs):
     """
     Return one or many valid instances of Django Models with fields filled with auto generated or customized data.
     All instances will be persisted in the database.
@@ -104,10 +104,10 @@ def get(model, shelve=False, n=1, **kwargs):
     kwargs = look_up_alias(**kwargs)
     d = fixture(**kwargs)
     if n == 1:
-        return d.get(model, shelve=shelve, **kwargs)
+        return d.get(model_, shelve=shelve, **kwargs)
     instances = []
     for _ in range(n):
-        instances.append(d.get(model, **kwargs))
+        instances.append(d.get(model_, **kwargs))
     return instances
 
 
