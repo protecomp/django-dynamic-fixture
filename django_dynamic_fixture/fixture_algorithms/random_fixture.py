@@ -4,6 +4,7 @@ from decimal import Decimal
 import random
 import string
 import uuid
+import json
 
 try:
     from django.utils.timezone import now
@@ -103,6 +104,12 @@ class RandomDataFixture(DataFixture):
 
     def xmlfield_config(self, field, key):
         return u'<a>%s</a>' % self.random_string(5)
+
+    def jsonfield_config(self, field, key):
+        d = {
+            self.charfield_config(field, key): self.charfield_config(field, key),
+        }
+        return json.loads(json.dumps(d))
 
     # FILES
     def filepathfield_config(self, field, key):

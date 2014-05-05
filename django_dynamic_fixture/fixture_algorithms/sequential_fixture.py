@@ -3,6 +3,7 @@ from datetime import datetime, date, timedelta
 from decimal import Decimal
 import threading
 import uuid
+import json
 
 from django_dynamic_fixture.ddf import DataFixture
 from django_dynamic_fixture.django_helper import field_is_unique
@@ -140,6 +141,12 @@ class SequentialDataFixture(DataFixture):
 
     def xmlfield_config(self, field, key):
         return u'<a>%s</a>' % self.get_value(field, key)
+    
+    def jsonfield_config(self, field, key):
+        d = {
+            self.charfield_config(field, key): self.charfield_config(field, key),
+        }
+        return json.loads(json.dumps(d))
 
     # FILES
     def filepathfield_config(self, field, key):
